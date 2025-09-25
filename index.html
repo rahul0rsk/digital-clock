@@ -1,24 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Digital clock</title>
-    <link rel="stylesheet" href="style.css"/>
-  </head>
-  <body>
-    <div class="hero">
-      <div class="box">
-        <style></style>
-        <div class="clock">
-          <span id="hrs">00</span>
-          <span>:</span>
-          <span id="min">00</span>
-          <span>:</span>
-          <span id="sec">00</span>
-        </div>
-      </div>
-    </div>
-    <script src="script.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>Digital Clock - Multiple Time Zones</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #222; color: #fff; }
+    .container { max-width: 400px; margin: 40px auto; background: #333; padding: 32px; border-radius: 14px; box-shadow: 0 2px 12px #0006; }
+    h2 { text-align: center; margin-bottom: 24px; }
+    .clock { display: flex; flex-direction: column; gap: 18px; }
+    .zone { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; background: #222; border-radius: 7px; font-size: 1.1em; }
+    .zone span { font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Digital Clock<br>Multiple Time Zones</h2>
+    <div class="clock" id="clockList"></div>
+  </div>
+  <script>
+    // List of time zones and their labels
+    const timeZones = [
+      { label: "UTC", zone: "UTC" },
+      { label: "India (IST)", zone: "Asia/Kolkata" },
+      { label: "USA (EST)", zone: "America/New_York" },
+      { label: "USA (PST)", zone: "America/Los_Angeles" },
+      { label: "Japan (JST)", zone: "Asia/Tokyo" },
+      { label: "Europe (CEST)", zone: "Europe/Berlin" },
+      { label: "Australia (AEST)", zone: "Australia/Sydney" }
+    ];
+
+    function updateClocks() {
+      const now = new Date();
+      document.getElementById('clockList').innerHTML = timeZones.map(tz => {
+        const time = now.toLocaleTimeString('en-US', { timeZone: tz.zone, hour12: false });
+        return `<div class="zone"><span>${tz.label}</span><span>${time}</span></div>`;
+      }).join('');
+    }
+
+    updateClocks();
+    setInterval(updateClocks, 1000);
+  </script>
+</body>
 </html>
